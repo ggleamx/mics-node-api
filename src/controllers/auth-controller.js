@@ -15,11 +15,9 @@ class AuthController extends BaseController {
   const state = "yeyo";
   // guarda el identificador de estado en la sesión de usuario
   req.session.state = state;
-
-
   // construye la URL de autorización de Instagram
   const instagramAuthURL = "https://api.instagram.com/oauth/authorize?" +
-    process.env.CLIENT_ID +
+    `&client_id=${process.env.CLIENT_ID}`+
     `&redirect_uri=${process.env.REDIRECT_URI}` +
     "&scope=user_profile,user_media" +
     "&response_type=code"+
