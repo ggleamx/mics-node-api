@@ -1,5 +1,7 @@
 const express = require('express')
 const cors = require('cors')
+const FirestoreProvider = require('./config/firestore')
+const session = require('express-session');
 
 class Server {
   constructor() {
@@ -20,6 +22,11 @@ class Server {
     this.app.use(cors())
     this.app.use(express.json())
     this.app.use(express.static('public'))
+    this.app.use(session({
+      secret: 'secret',
+      resave: false,
+      saveUninitialized: true
+    }))
   }
 
   routes() {
@@ -33,6 +40,8 @@ class Server {
   }
 
   providers() {
+    const firestoreProvider = FirestoreProvider.getInstance()
+    firestoreProvider.init()
   }
 }
 

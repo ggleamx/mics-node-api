@@ -1,7 +1,9 @@
 const { default: axios } = require('axios')
+const FirestoreRepository = require('./firestore-repository')
 
-class AuthRepository {
+class AuthRepository extends FirestoreRepository{
   constructor () {
+    super();
   }
 
 }
