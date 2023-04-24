@@ -46,13 +46,12 @@ redirectURI = async (req, res) => {
     const authorizationCode = query.code;
     const state = query.state;
 
-    console.log(authorizationCode,state)
 
     // verifica que el identificador de estado recibido es el mismo que el utilizado en la solicitud de autorización original
     if (state === req.session.state) {
 
 
-    await this.repository.patchDocument("users",{instagram_code:authorizationCode},req.payload.uuid);
+    await this.repository.patchDocument("users",{instagram_code:authorizationCode},state);
       return res.json(new APIResponse().ok200("Código de autorización recibido correctamente"));
       // el identificador de estado es válido, utiliza el código de autorización y el identificador de estado para solicitar un token de acceso
       // ...
