@@ -23,6 +23,7 @@
     "joi": "^17.7.0",
     "jsonwebtoken": "^9.0.0",
     "moment-timezone": "^0.5.40",
+    "querystring": "^0.2.1",
     "uuid": "^9.0.0"
   }
 }

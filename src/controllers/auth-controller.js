@@ -3,6 +3,7 @@ const Response = require('../models/response-model')
 const bcryptjs = require('bcryptjs');
 const uuidv4 = require('uuid').v4;
 const { generateJWT } = require("../helpers/generateJWT");
+const qs = require('querystring'); // Asegúrate de instalar la dependencia 'querystring'
 
 const BaseController = require("./base-controller");
 const axios = require('axios');
@@ -49,9 +50,7 @@ redirectURI = async (req, res) => {
 
     // verifica que el identificador de estado recibido es el mismo que el utilizado en la solicitud de autorización original
     if (state === req.session.state) {
-
-
-    await this.repository.patchDocument("users",{instagram_code:authorizationCode},state);
+    await this.repository.patchDocument("users",{instagram_access_code:authorizationCode},state);
       return res.json(new APIResponse().ok200("Código de autorización recibido correctamente"));
       // el identificador de estado es válido, utiliza el código de autorización y el identificador de estado para solicitar un token de acceso
       // ...
@@ -208,6 +207,43 @@ createUser = async (req, res) => {
       .json(new Response(true, 'Fatal while creating a user', null, error))
   }
 }
+
+setToken = async (req, res) => {
+
+  try {
+
+    const data = {
+      client_id: process.env.CLIENT_ID,
+      client_secret: process.env.CLIENT_SECRET,
+      grant_type: "authorization_code",
+      redirect_uri: process.env.REDIRECT_URI,
+      code: req.body.code
+    }
+    const response = await axios.post('https://api.instagram.com/oauth/access_token', qs.stringify(data), {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    });
+
+    if (response.status == 200) {
+      const { access_token, user_id } = response.data;
+  
+      const user = await this.repository.patchDocument('users',{
+        instagram_user_id:user_id,
+        instagram_access_token: access_token,
+      }, req.payload.uuid);
+      
+        return res.json(new Response(false, "Instagram access token settled"))
+    } else {
+      return res.status(401).json(new Response(true, "Error while login with instagram"))
+    }
+  }catch(err) {
+    console.log(err.response.data.error_message);
+    return res.status(500).json(err.response.data)
+  }
+
+}
+
 }
 
 module.exports = AuthController;

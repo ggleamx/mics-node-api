@@ -12,6 +12,7 @@ router.post('/sign-in',controller.logIn)
 
 router.get('/instagram',validateRegularJWT, controller.instagramAuth);
 router.get('/redirect',controller.redirectURI);
+router.post('/instagram/token',validateRegularJWT,controller.setToken);
 
 module.exports = router;
 
