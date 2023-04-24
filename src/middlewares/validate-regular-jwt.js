@@ -1,7 +1,7 @@
 const Response = require("../models/response-model");
 const jwt = require("jsonwebtoken");
 validateRegularJWT = (req, res, next) => {
-  const token = req.header("x-token");
+  const token = req.query.token;
 
   if (!token) {
     return res.status(401).json(new Response(true, "Token not received"));

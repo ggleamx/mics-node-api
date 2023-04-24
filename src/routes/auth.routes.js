@@ -10,7 +10,7 @@ router.post('/sign-up',controller.createUser)
 router.post('/sign-in',controller.logIn)
 
 
-router.get('/instagram', controller.instagramAuth);
+router.get('/instagram',validateRegularJWT, controller.instagramAuth);
 router.get('/redirect',controller.redirectURI);
 
 module.exports = router;
