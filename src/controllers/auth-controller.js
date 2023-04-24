@@ -17,8 +17,10 @@ class AuthController extends BaseController {
   instagramAuth = async (req, res) => {
 
   // genera un identificador de estado único para esta solicitud de autorización
-  const state = `${req.payload.uuid}`;
+  
 
+  
+  const state = `${req.query.token}`;
   // guarda el identificador de estado en la sesión de usuario
   req.session.state = state;
   // construye la URL de autorización de Instagram
