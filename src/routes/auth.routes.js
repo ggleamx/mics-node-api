@@ -14,5 +14,7 @@ router.get('/instagram',validateRegularJWT, controller.instagramAuth);
 router.get('/redirect',controller.redirectURI);
 router.post('/instagram/token',validateRegularJWT,controller.setToken);
 
+
+router.post('/webhooks', controller.manageWebHooks)
 module.exports = router;
 

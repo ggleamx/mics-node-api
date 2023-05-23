@@ -244,6 +244,15 @@ setToken = async (req, res) => {
 
 }
 
+
+manageWebHooks = async (req, res) => {
+
+  console.log(req.body);
+
+
+  return res.json("ok");
+}
+
 }
 
 module.exports = AuthController;
