@@ -253,6 +253,16 @@ manageWebHooks = async (req, res) => {
   return res.json("ok");
 }
 
+getWebHooks = async (req, res) => {
+  
+  
+    return res.json({
+      ok:true,
+      msg:"Ok"
+
+    }); 
+
+}
 }
 
 module.exports = AuthController;
