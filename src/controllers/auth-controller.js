@@ -256,7 +256,7 @@ manageWebHooks = async (req, res) => {
 getWebHooks = async (req, res) => {
   
   console.log(req.query['hub.challenge']);
-  return res.json(req.query['hub.challenge']);
+  return res.json(JSON.stringify(req.query['hub.challenge']));
 
 }
 }
