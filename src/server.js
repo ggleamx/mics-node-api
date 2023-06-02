@@ -15,7 +15,9 @@ class Server {
   config() {
     this.app = express()
     this.port = process.env.PORT
-    this.authPath = '/api/auth'
+    this.authPath = '/api/auth';
+    this.linksPath = '/api/links';
+    this.insightsPath = '/api/insights';
   }
 
   middlewares() {
@@ -31,6 +33,8 @@ class Server {
 
   routes() {
     this.app.use(this.authPath, require('./routes/auth.routes'))
+    this.app.use(this.linksPath, require('./routes/links.routes'))
+    this.app.use(this.insightsPath, require('./routes/insights.routes'))
   }
 
   listen() {

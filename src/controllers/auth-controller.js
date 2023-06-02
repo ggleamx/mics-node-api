@@ -8,6 +8,7 @@ const qs = require('querystring'); // Asegúrate de instalar la dependencia 'que
 const BaseController = require("./base-controller");
 const axios = require('axios');
 const url = require('url');
+const cheerio = require('cheerio');
 
 class AuthController extends BaseController {
   constructor(repository) {
@@ -241,23 +242,32 @@ setToken = async (req, res) => {
     console.log(err.response.data.error_message);
     return res.status(500).json(err.response.data)
   }
+}
 
+ getLikes = async (req,res) => {
+
+const username = req.params.username
+
+  try {
+    const url = `https://www.instagram.com/${username}/`;
+    const response = await axios.get(url);
+    const $ = cheerio.load(response.data);
+    const likesElement = $('span.vcOH2');
+    const likes = likesElement.text().trim() || 'Likes not found';
+    return likes;
+  } catch (error) {
+    console.error('Error:', error.message);
+  }
 }
 
 
-manageWebHooks = async (req, res) => {
-
-  console.log(req.body);
-
-
-  return res.json("ok");
-}
 
 getWebHooks = async (req, res) => {
   
   console.log(req.query['hub.challenge']);
   return res.send(req.query['hub.challenge']);
 }
+
 }
 
 module.exports = AuthController;
